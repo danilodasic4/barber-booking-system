@@ -1,0 +1,57 @@
+version: '2'
+
+networks:
+    default:
+    symfony-appointments-project_default:
+        external: false
+          #  name: symfony-appointments-project_default
+
+services:
+    #app:
+        #extra_hosts:
+            #- "dev.symfony-6-testing-project.com:host.docker.internal"
+    front:
+        image: nginx:alpine
+        container_name: symfony-appointments-project_front
+        ports:
+            - 85:80
+        volumes:
+            - .:/var/www:rw
+            - ./config/docker/front/symfony-appointments-project.conf:/etc/nginx/conf.d/symfony-appointments-project.conf:ro
+        working_dir: /var/www
+        networks:
+            default:
+                aliases:
+                    - dev.symfony-appointments-project.com
+
+    db:
+        image: mysql/mysql-server:8.0.28
+        container_name: symfony-appointments-project_db
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+        ports:
+            - 3308:3306
+
+
+    engine:
+        build: ./config/docker/engine/
+        container_name: symfony-appointments-project_engine
+        ports:
+            - 3002:3001
+        volumes:
+            - .:/var/www:rw
+            - ./config/docker/engine/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+            - ./public/uploads/profile_pictures:/var/www/html/public/uploads/profile_pictures:rw  
+        working_dir: /var/www
+        networks:
+            - default
+            - symfony-appointments-project_default
+    redis:
+        image: redis:alpine
+        container_name: symfony-appointments-project_redis
+        ports:
+            - 6380:6379
+        networks:
+            - default
