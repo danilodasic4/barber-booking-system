@@ -1,20 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Welcome to My Barber Shop{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url('https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        text-shadow: 1px 1px 5px black;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 40px;
+        border-radius: 15px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.5rem;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/src/Controller/DefaultController.php</code></li>
-        <li>Your template at <code>/var/www/templates/default/index.html.twig</code></li>
-    </ul>
+<div class="overlay">
+    <h1>Welcome to My Barber Shop</h1>
+    <p>You are on the right place for your next fresh cut 💈</p>
 </div>
 {% endblock %}
