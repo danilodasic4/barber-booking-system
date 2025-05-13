@@ -10,11 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250510074900 extends AbstractMigration
+final class Version20250513070827 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create users, appointments, barbers, and barber_schedule tables';
+        return '';
     }
 
     public function up(Schema $schema): void
@@ -26,9 +26,9 @@ final class Version20250510074900 extends AbstractMigration
                 name VARCHAR(255),
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                role ENUM('ROLE_USER', 'ROLE_ADMIN') DEFAULT 'ROLE_USER',
+                roles JSON NOT NULL,
                 active BOOLEAN DEFAULT TRUE,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
             );
         SQL);
 
@@ -38,10 +38,10 @@ final class Version20250510074900 extends AbstractMigration
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                role ENUM('ROLE_USER', 'ROLE_ADMIN') DEFAULT 'ROLE_USER',
+                roles JSON NOT NULL,
                 phone_number VARCHAR(15),
                 instagram_username VARCHAR(255),
-                status ENUM('active', 'inactive') DEFAULT 'active',
+                status VARCHAR(10) DEFAULT 'active', 
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         SQL);
@@ -52,11 +52,11 @@ final class Version20250510074900 extends AbstractMigration
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
                 barber_id INT,
-                service_type ENUM('haircut', 'shave', 'haircut_shave', 'haircut_shave_razor'),
+                service_type VARCHAR(30),
                 appointment_time DATETIME,
                 price DECIMAL(10, 2),
-                status ENUM('booked', 'completed', 'canceled') DEFAULT 'booked',
-                payment_status ENUM('pending', 'paid', 'canceled') DEFAULT 'pending',
+                status VARCHAR(20) DEFAULT 'booked',
+                payment_status VARCHAR(20) DEFAULT 'pending',
                 FOREIGN KEY (user_id) REFERENCES users(id),
                 FOREIGN KEY (barber_id) REFERENCES barbers(id)
             );
@@ -67,10 +67,10 @@ final class Version20250510074900 extends AbstractMigration
             CREATE TABLE barber_schedule (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 barber_id INT,
-                day_of_week ENUM('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'),
+                day_of_week VARCHAR(10),
                 start_time TIME,
                 end_time TIME,
-                status ENUM('open', 'closed') DEFAULT 'open',
+                status VARCHAR(10) DEFAULT 'open', 
                 FOREIGN KEY (barber_id) REFERENCES barbers(id)
             );
         SQL);

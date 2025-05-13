@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration Successful{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center mt-5">Registration Successful!</h1>
+        <p class="text-center mt-3">
+            Congratulations! You have successfully registered. You can now either log in or return to the homepage.
+        </p>
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ path('app_login') }}" class="btn btn-primary me-3">Go to Login</a>
+            <a href="{{ path('app_home') }}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}
